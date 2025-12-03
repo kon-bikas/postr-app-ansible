@@ -4,7 +4,7 @@
 
     tasks:
       - name: take massage from docker login
-        shell: "cat ~/.docker_push_secret | docker login -u {{ gh_user }} --password-stdin"
+        shell: "cat ~/.docker_push_secret | docker login ghcr.io -u {{ gh_user }} --password-stdin"
         register: result 
 
       - name: display message result
