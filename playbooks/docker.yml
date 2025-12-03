@@ -22,7 +22,8 @@
           - sudo install -m 0755 -d /etc/apt/keyrings
           - sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
           - sudo chmod a+r /etc/apt/keyrings/docker.asc
-        update_cache: true
+        notify:
+          - update cache 
 
       - name: Add the repository to apt source
         become: yes
@@ -34,7 +35,8 @@
           Components: stable
           Signed-By: /etc/apt/keyrings/docker.asc
           EOF
-        update_cache: true
+        notify:
+          - update cache 
 
       - name: install docker
         become: yes
@@ -59,3 +61,8 @@
           name: " {{ ansible_user_id }} "
           groups: docker
           append: yes
+
+    handlers:
+      - name: update cache 
+        apt:
+          update_cache: true
