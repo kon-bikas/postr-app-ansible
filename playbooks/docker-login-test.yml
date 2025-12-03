@@ -5,8 +5,8 @@
     tasks:
       - name: take massage from docker login
         shell: "cat ~/secrets/.docker_push_secret | docker login -u {{ gh_user }} --password-stdin"
-        register: docker-login-result 
+        register: result 
 
       - name: display message result
         debug:
-          msg: "{{ docker-login-result }}" 
+          msg: "{{ result }}" 
