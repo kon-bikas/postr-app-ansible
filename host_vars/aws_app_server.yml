@@ -1,3 +1,5 @@
 app:
   directory: "{{ ansible_user_dir }}/spring"
   branch: main
+
+gh_user: kon-bikas

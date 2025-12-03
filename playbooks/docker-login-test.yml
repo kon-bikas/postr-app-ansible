@@ -1,0 +1,12 @@
+---
+  - name: test docker login from remote server
+    hosts: app_server
+
+    tasks:
+      - name: take massage from docker login
+        shell: "cat ~/secrets/.docker_push_secret | docker login -u {{ gh_user }} --password-stdin"
+        register: docker-login-result 
+
+      - name: display message result
+        debug:
+          msg: "{{ docker-login-result }}" 
