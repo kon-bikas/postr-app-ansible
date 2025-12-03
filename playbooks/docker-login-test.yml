@@ -1,6 +1,6 @@
 ---
   - name: test docker login from remote server
-    hosts: app_server
+    hosts: app_servers
 
     tasks:
       - name: take massage from docker login
