@@ -1,0 +1,37 @@
+---
+  - name: Cloning app repo and running it with docker compose
+    hosts: app_servers
+
+    tesks:
+      - name: Check if Docker is installed
+        shell: docker --version && docker compose version
+        register: docker_version_result
+        ignore_errors: true
+
+      - name: Set Docker installed fact
+        set_fact:
+          docker_installed: "{{ docker_version_result.rc == 0 }}"
+
+      - name: Include install_docker playbook if Docker is not installed
+        include_playbook: docker.yml
+        when: not docker_installed
+
+      - name: cloning project repo
+        git:
+          repo: git@github.com:kon-bikas/postr-backend.git
+          dest: "{{ app.directory }}"
+          version: "{{ app.branch }}"
+          force: yes
+      
+      - name: compose down existing services
+        community.docker.docker_compose_v2:
+          project_src: "{{ app.directory }}"
+          state: absent
+
+      - name: authenticate to ghcr.io
+        shell: "cat ~/.docker-pull-token | docker login ghcr.io -u {{ gh_user }} --password-stdin"
+
+      - name: starting the app with docker compose
+        community.docker.docker_compose_v2:
+          project_src: "{{ app.directory }}"
+          state: present
