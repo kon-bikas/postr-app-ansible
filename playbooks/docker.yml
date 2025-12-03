@@ -43,8 +43,8 @@
           state: present
           update_cache: true
         loop: 
-        - docker-ce 
-        - docker-compose
+          - docker-ce 
+          - docker-compose
       
       - name: start docker service
         become: yes

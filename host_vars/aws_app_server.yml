@@ -1,0 +1,3 @@
+app:
+  directory: "{{ ansible_user_dir }}/spring"
+  branch: main
