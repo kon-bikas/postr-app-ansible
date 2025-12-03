@@ -3,19 +3,6 @@
     hosts: app_servers
 
     tasks:
-      # - name: Check if Docker is installed
-      #   shell: docker --version && docker compose version
-      #   register: docker_version_result
-      #   ignore_errors: true
-
-      # - name: Set Docker installed fact
-      #   set_fact:
-      #     docker_installed: "{{ docker_version_result.rc == 0 }}"
-
-      # - name: Include install_docker playbook if Docker is not installed
-      #   import_playbook: docker.yml
-      #   when: not docker_installed
-
       - name: cloning project repo
         git:
           repo: git@github.com:kon-bikas/postr-backend.git
@@ -29,7 +16,7 @@
           state: absent
 
       - name: authenticate to ghcr.io
-        shell: "cat ~/.docker-pull-token | docker login ghcr.io -u {{ gh_user }} --password-stdin"
+        shell: "cat ~/.docker-pull-secret | docker login ghcr.io -u {{ gh_user }} --password-stdin"
 
       - name: starting the app with docker compose
         community.docker.docker_compose_v2:
