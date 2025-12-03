@@ -2,7 +2,7 @@
   - name: Cloning app repo and running it with docker compose
     hosts: app_servers
 
-    tesks:
+    tasks:
       - name: Check if Docker is installed
         shell: docker --version && docker compose version
         register: docker_version_result
