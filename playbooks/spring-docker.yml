@@ -9,6 +9,7 @@
           dest: "{{ app.directory }}"
           version: "{{ app.branch }}"
           force: yes
+          accept_hostkey: true
       
       - name: compose down existing services
         community.docker.docker_compose_v2:
