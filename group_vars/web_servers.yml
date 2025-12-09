@@ -1,0 +1,2 @@
+domain: postr
+backend_server_url: http://192.168.68.111:8080

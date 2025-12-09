@@ -1,0 +1,20 @@
+server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+
+      server_name _;
+
+      root /var/www/{{ domain }}/html;
+      index index.html;
+
+      location / {
+            try_files $uri $uri/ /index.html;
+      }    
+
+      location /api {
+            include proxy_params;
+            proxy_redirect off;
+            proxy_buffering off;
+            proxy_pass {{ backend_server_url }};
+      }  
+}

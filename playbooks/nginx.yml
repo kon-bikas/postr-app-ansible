@@ -1,0 +1,63 @@
+---
+  - name: Setup nginx as web server and reverse proxy
+    hosts: web_servers
+
+    pre_tasks:
+      - name: install nginx
+        become: yes
+        apt:
+          name: nginx
+          state: present
+          update_cache: true
+
+      - name: create domain directory
+        become: yes
+        file:
+          path: "/var/www/{{ domain }}/html"
+          state: directory
+          mode: 0755
+
+    tasks:
+      - name: pass index.html file 
+        become: yes
+        copy: 
+          src: ../files/index.html.j2
+          dest: "/var/www/{{ domain }}/html/index.html"
+          mode: 0755
+        notify: restart nginx
+
+      - name: create an available site for our domain
+        become: yes
+        template:
+          src: ../files/nginx.conf.j2
+          dest: "/etc/nginx/sites-available/{{ domain }}"
+        notify: restart nginx
+
+      - name: link our domain to sites-enabled
+        become: yes
+        file:
+          src: "/etc/nginx/sites-available/{{ domain }}"
+          dest: "/etc/nginx/sites-enabled/{{ domain }}"
+          state: link
+        
+      - name: remove default site as default server
+        become: yes
+        block:
+          - name: replace listen 80 default_server line
+            lineinfile:
+              path: /etc/nginx/sites-available/default
+              search_string: 'listen 80 default_server;'
+              line: "\tlisten 80;"
+          - name: replace listen [::]:80 default server line
+            lineinfile:
+              path: /etc/nginx/sites-available/default
+              search_string: 'listen [::]:80 default_server;'
+              line: "\tlisten [::]:80;"      
+        notify: restart nginx  
+
+    handlers:
+      - name: restart nginx
+        become: yes
+        service:
+          name: nginx
+          state: restarted
