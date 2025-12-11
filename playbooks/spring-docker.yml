@@ -3,6 +3,9 @@
     hosts: app_servers
 
     tasks:
+      - name: Check if agent forwarded
+        command: env
+
       - name: Debug GitHub SSH access
         command: ssh -T git@github.com
 
