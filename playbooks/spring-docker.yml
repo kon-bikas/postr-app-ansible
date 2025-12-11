@@ -5,6 +5,11 @@
     tasks:
       - name: Check if agent forwarded
         command: env
+        register: env_reg
+
+      - name: display env result
+        debug:
+          msg: "{{ env_reg }}"
 
       - name: Debug GitHub SSH access
         command: ssh -T git@github.com
