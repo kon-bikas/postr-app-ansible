@@ -18,12 +18,22 @@
       #     files:
       #       - docker-compose.spring.yml
 
+      - name: compose down existing services
+        command: docker compose -f docker-compose.spring.yml down
+        args:
+          chdir: "{{ app.directory }}"
+
       - name: authenticate to ghcr.io
         shell: echo {{ docker_secret }} | docker login ghcr.io -u {{ gh_user }} --password-stdin
 
-      - name: starting the app with docker compose
-        community.docker.docker_compose_v2:
-          project_src: "{{ app.directory }}"
-          state: present
-          files:
-            - docker-compose.spring.yml
+      # - name: starting the app with docker compose
+      #   community.docker.docker_compose_v2:
+      #     project_src: "{{ app.directory }}"
+      #     state: present
+      #     files:
+      #       - docker-compose.spring.yml
+
+      - name: compose up services
+        command: docker compose -f docker-compose.spring.yml up
+        args:
+          chdir: "{{ app.directory }}"
