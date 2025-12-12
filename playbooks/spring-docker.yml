@@ -1,6 +1,8 @@
 ---
   - name: Cloning app repo and running it with docker compose
     hosts: app_servers
+    vars_files:
+      - vars/spring_env.yml
 
     pre_tasks:
       - name: Gather package facts
@@ -13,6 +15,10 @@
         when: "not 'docker-ce' or not 'docker-compose' in ansible_facts.packages"
 
     tasks:
+      - name: testing tasks
+        debug:
+          msg: "env var: {{ test_var }}"
+
       - name: cloning project repo
         git:
           repo: git@github.com:kon-bikas/postr-backend.git

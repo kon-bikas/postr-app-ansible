@@ -1,8 +1,10 @@
 ---
   - name: testing playbook
     hosts: app_servers
+    vars_files:
+      - vars/spring_env.yml
 
     tasks:
       - name: testing tasks
         debug:
-          msg: "task completed succesfully!"
+          msg: "env var: {{ test_var }}"
