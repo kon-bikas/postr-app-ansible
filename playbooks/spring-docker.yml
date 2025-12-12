@@ -3,6 +3,9 @@
     hosts: app_servers
 
     tasks:
+      - name: Debug GitHub SSH access
+        command: ssh -T git@github.com
+
       - name: cloning project repo
         git:
           repo: git@github.com:kon-bikas/postr-backend.git
