@@ -11,24 +11,19 @@
           force: yes
           accept_hostkey: true
       
-      # - name: compose down existing services
-      #   community.docker.docker_compose_v2:
-      #     project_src: "{{ app.directory }}"
-      #     state: absent
-      #     files:
-      #       - docker-compose.spring.yml
+      - name: compose down existing services
+        community.docker.docker_compose_v2:
+          project_src: "{{ app.directory }}"
+          state: absent
+          files:
+            - docker-compose.spring.yml
 
-      # - name: authenticate to ghcr.io
-      #   shell: echo {{ docker_secret }} | docker login ghcr.io -u {{ gh_user }} --password-stdin
-      #   register: res
+      - name: authenticate to ghcr.io
+        shell: echo {{ docker_secret }} | docker login ghcr.io -u {{ gh_user }} --password-stdin
 
-      # - name: display res
-      #   debug:
-      #     msg: "{{ res }}"
-
-      # - name: starting the app with docker compose
-      #   community.docker.docker_compose_v2:
-      #     project_src: "{{ app.directory }}"
-      #     state: present
-      #     files:
-      #       - docker-compose.spring.yml
+      - name: starting the app with docker compose
+        community.docker.docker_compose_v2:
+          project_src: "{{ app.directory }}"
+          state: present
+          files:
+            - docker-compose.spring.yml
