@@ -3,15 +3,13 @@
     hosts: app_servers
 
     tasks:
-      - name: Debug GitHub SSH access
-        command: ssh -T git@github.com
-
       - name: cloning project repo
         git:
           repo: git@github.com:kon-bikas/postr-backend.git
           dest: "{{ app.directory }}"
           version: "{{ app.branch }}"
           force: yes
+          accept_hostkey: true
       
       # - name: compose down existing services
       #   community.docker.docker_compose_v2:
