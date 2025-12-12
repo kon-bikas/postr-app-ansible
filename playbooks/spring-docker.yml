@@ -2,6 +2,16 @@
   - name: Cloning app repo and running it with docker compose
     hosts: app_servers
 
+    pre_tasks:
+      - name: Gather package facts
+        ansible.builtin.package_facts:
+          manager: auto  
+
+      - name: install docker if not installed
+        include_tasks:
+          file: docker.yml
+        when: "not 'docker-ce' or not 'docker-compose' in ansible_facts.packages"
+
     tasks:
       - name: cloning project repo
         git:
