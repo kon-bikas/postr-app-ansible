@@ -1,12 +1,18 @@
 ---
   - name: test docker login from remote server
     hosts: app_servers
+    # vars:
+    #   secret: "{{ my_secret }}"
 
     tasks:
-      - name: take massage from docker login
-        shell: "cat ~/.docker_push_secret | docker login ghcr.io -u {{ gh_user }} --password-stdin"
-        register: result 
-
-      - name: display message result
+      - name: testing variable passing in cli
         debug:
-          msg: "{{ result }}" 
+          msg: secret is {{ my_secret }}
+
+      # - name: take massage from docker login
+      #   shell: "cat ~/.docker_push_secret | docker login ghcr.io -u {{ gh_user }} --password-stdin"
+      #   register: result 
+
+      # - name: display message result
+      #   debug:
+      #     msg: "{{ result }}" 
