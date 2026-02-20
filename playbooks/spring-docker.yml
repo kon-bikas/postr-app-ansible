@@ -21,13 +21,14 @@
           version: "{{ app.branch }}"
           force: yes
           accept_hostkey: true
-      
-      # - name: compose down existing services
-      #   community.docker.docker_compose_v2:
-      #     project_src: "{{ app.directory }}"
-      #     state: absent
-      #     files:
-      #       - docker-compose.spring.yml
+
+      - name: creating keycloak ssl certificates
+        shell: >
+          openssl req -newkey rsa:2048 -nodes
+          -keyout keycloak-server.key.pem -x509 -days 3650
+          -out keycloak-server.crt.pem -subj "/C=GR/ST=Attiki/L=Athens/O=MyOrg/OU=IT/CN=mydomain.com"
+        args:
+          chdir: "{{ app.directory }}/keycloak"
 
       - name: compose down existing services
         command: docker compose -f docker-compose.spring.yml down
@@ -36,13 +37,6 @@
 
       - name: authenticate to ghcr.io
         shell: echo {{ docker_secret }} | docker login ghcr.io -u {{ gh_user }} --password-stdin
-
-      # # - name: starting the app with docker compose
-      # #   community.docker.docker_compose_v2:
-      # #     project_src: "{{ app.directory }}"
-      # #     state: present
-      # #     files:
-      # #       - docker-compose.spring.yml
 
       - name: compose up services
         command: docker compose -f docker-compose.spring.yml up -d
