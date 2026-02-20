@@ -21,7 +21,7 @@
 
       - name: cloning project repo
         git:
-          repo: git@github.com:kon-bikas/postr-backend.git
+          repo: git@github.com:kon-bikas/post-backend.git
           dest: "{{ app.directory }}"
           version: "{{ app.branch }}"
           force: yes
