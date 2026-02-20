@@ -14,11 +14,6 @@
           file: docker.yml
         when: "not 'docker-ce' or not 'docker-compose' in ansible_facts.packages"
 
-    tasks:
-      - name: testing tasks
-        debug:
-          msg: "env var: {{ test_var }}"
-
       - name: cloning project repo
         git:
           repo: git@github.com:kon-bikas/post-backend.git
