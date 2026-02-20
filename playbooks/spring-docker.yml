@@ -45,6 +45,6 @@
       # #       - docker-compose.spring.yml
 
       - name: compose up services
-        command: docker compose -f docker-compose.spring.yml up
+        command: docker compose -f docker-compose.spring.yml up -d
         args:
           chdir: "{{ app.directory }}"
