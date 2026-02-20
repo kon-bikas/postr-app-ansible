@@ -47,3 +47,5 @@
         command: docker compose -f docker-compose.spring.yml up -d
         args:
           chdir: "{{ app.directory }}"
+        environment: 
+          APP_KEYCLOAK_CLIENT_SECRET: "{{ keycloak.client_secret }}"
