@@ -38,6 +38,11 @@
       - name: authenticate to ghcr.io
         shell: echo {{ docker_secret }} | docker login ghcr.io -u {{ gh_user }} --password-stdin
 
+      - name: pull latest docker images from ghcr.io
+        command: docker compose -f docker-compose.spring.yml pull
+        args:
+          chdir: "{{ app.directory }}"
+
       - name: compose up services
         command: docker compose -f docker-compose.spring.yml up -d
         args:
