@@ -48,4 +48,4 @@
         args:
           chdir: "{{ app.directory }}"
         environment: 
-          APP_KEYCLOAK_CLIENT_SECRET: "{{ keycloak.client_secret }}"
+          KEYCLOAK_SECRET: "{{ keycloak.client_secret }}"
