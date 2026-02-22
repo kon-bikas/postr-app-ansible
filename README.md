@@ -1,4 +1,4 @@
-# Ansible Project Name
+# Ansible post application docker and k8s deployment
 
 Ansible project used for automating tasks for post-backend project deployment. Used to deploy spring post-backend application, keycloak (with keycloak rabbitmq event spi provider), rabbitmq, minio and postgresql with docker-compose to a remote host (spring-docker) or the deployment of a newer version of the spring application in the kubernetes cluster (spring-k8s.yml).
 
