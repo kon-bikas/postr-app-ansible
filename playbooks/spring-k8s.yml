@@ -2,14 +2,14 @@
   - name: Update spring image in kubernetes cluster
     hosts: localhost
     vars:
-      namespace: default
+      k8s_namespace: default
       container_name: postr-container
       deployment_name: spring-deployment
     
     tasks:
       - name: Update spring container image with newer version
         kubernetes.core.k8s:
-          namespace: "{{ namespace }}"
+          namespace: "{{ k8s_namespace }}"
           kind: Deployment
           name: "{{ deployment_name }}"
           definition:
